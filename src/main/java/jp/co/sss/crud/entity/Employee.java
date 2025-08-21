@@ -81,15 +81,7 @@ public class Employee {
 		
 	}
 
-	public Integer getEmpId() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
 
-	public String getEmpPass() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
 
 	public String getEmpName() {
 		// TODO 自動生成されたメソッド・スタブ
@@ -117,6 +109,16 @@ public class Employee {
 	}
 
 	public EmployeeForm getDepartment() {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
+
+	public Object getEmpPass() {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
+	}
+
+	public Object getEmpId() {
 		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
