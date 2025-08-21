@@ -3,7 +3,7 @@ package jp.co.sss.crud.form;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-//import jp.co.sss.crud.util.BeanCopy;
+import jp.co.sss.crud.util.BeanCopy;
 
 
 public class LoginForm {
