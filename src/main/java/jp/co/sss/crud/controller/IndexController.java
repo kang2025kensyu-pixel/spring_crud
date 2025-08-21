@@ -34,12 +34,15 @@ public class IndexController {
 		if (result.hasErrors()) {
 			return "index";
 		}
-		if (form.getEmpId() == getEmpId&&form.getEmpPass==getEmpPass) { 
+		if (form.getEmpId() == model.Emp_Id&& form.getEmpPass()== model.EmpPass) { 
 			//入力したユーザID をセッション属性 userId としてセッションスコープに保存 
 			session.setAttribute("userId", form.getEmpId()); 
 			return "list/list"; 
+			
 			} else { 
+				
 			return "regist/"; 
+			
 			} 
 
 			model.addAttribute("loginError", "社員IDまたはパスワードが正しくありません");
