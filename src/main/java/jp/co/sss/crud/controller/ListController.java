@@ -1,29 +1,25 @@
 package jp.co.sss.crud.controller;
+import java.util.List;
 
-import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import jp.co.sss.crud.bean.EmployeeBean;
+import jakarta.servlet.http.HttpSession;
+import jp.co.sss.crud.entity.Employee;
 import jp.co.sss.crud.repository.EmployeeRepository;
-
-
 @Controller
-@RequestMapping("/employee")
-
 public class ListController {
-	@Autowired
-	EmployeeRepository employeeRepository;
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     @GetMapping("/list")
-    public String getAllEmployees(Model model) {
-        List<EmployeeBean> employees = employeeRepository.findAll(); 
-        model.addAttribute("employees", employees); 
-
-        return "/list"; 
+    public String getAllEmployees(Model model, HttpSession session) {        
+    	List<Employee> employees = employeeRepository.findAll();
+        model.addAttribute("employees", employees);
+        return "list/list"; // 正しいテンプレートパス
     }
-
 }
+
+

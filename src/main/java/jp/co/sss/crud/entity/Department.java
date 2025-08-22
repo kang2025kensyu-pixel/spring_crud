@@ -5,16 +5,18 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-@Entity
-@Table(name = "department")
-public class Department {
-	@Id
-	private Integer deptId;
+	@Entity
+	@Table(name = "department")
+	public class Department {
 
-	@Column
-	private String deptName;
+	    @Id
+	    @Column(name = "dept_id")
+	    private Integer deptId;
 
-	 public Integer getDeptId() {
+	    @Column(name = "dept_name")
+	    private String deptName;
+
+	    public Integer getDeptId() {
 	        return deptId;
 	    }
 
@@ -30,3 +32,4 @@ public class Department {
 	        this.deptName = deptName;
 	    }
 	}
+

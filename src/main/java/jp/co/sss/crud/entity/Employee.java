@@ -5,13 +5,13 @@ import java.util.Date;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "employee")
 public class Employee {
-
-
 
 	@Id
 	private Integer empId;
@@ -34,7 +34,6 @@ public class Employee {
 	@Column
 	private Integer authority;
 
-
 	public Integer getEmpId() {
 		return empId;
 	}
@@ -51,71 +50,58 @@ public class Employee {
 		this.empPass = empPass;
 	}
 
-	public void setEmpName(String empName) {
-		// TODO 自動生成されたメソッド・スタブ
-		this.empName = empName;
-		
-	}
-
 	public String getEmpName() {
-		// TODO 自動生成されたメソッド・スタブ
 		return empName;
 	}
 
+	public void setEmpName(String empName) {
+		this.empName = empName;
+	}
+
 	public Integer getGender() {
-		// TODO 自動生成されたメソッド・スタブ
 		return gender;
 	}
 
+	public void setGender(Integer gender) {
+		this.gender = gender;
+	}
+
 	public String getAddress() {
-		// TODO 自動生成されたメソッド・スタブ
 		return address;
 	}
 
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public Date getBirthday() {
-		// TODO 自動生成されたメソッド・スタブ
 		return birthday;
 	}
 
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
 	public Integer getAuthority() {
-		// TODO 自動生成されたメソッド・スタブ
 		return authority;
 	}
 
-	public void setGender(Integer gender2) {
-		// TODO 自動生成されたメソッド・スタブ
-		
+	public void setAuthority(Integer authority) {
+		this.authority = authority;
 	}
-
-	public void setAddress(String address2) {
-		// TODO 自動生成されたメソッド・スタブ
-		
-	}
-
-	public void setBirthday(Date birthday2) {
-		// TODO 自動生成されたメソッド・スタブ
-		
-	}
-
-	public void setAuthority(Integer authority2) {
-		// TODO 自動生成されたメソッド・スタブ
-		
-	}
-
-//	public Department getDepartment() {
-//		// TODO 自動生成されたメソッド・スタブ
-//		return null;
-//	}
-
-
-
 	
-
-
-
 	
+	@ManyToOne
+	@JoinColumn(name = "dept_id")
+	private Department department;
 
-//	@ManyToOne
-//	@JoinColumn(name = "dept_id");
-	
+	public Department getDepartment() {
+	    return department;
+	}
+
+	public void setDepartment(Department department) {
+	    this.department = department;
+	}
+
+
 }

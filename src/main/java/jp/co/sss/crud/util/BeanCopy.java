@@ -31,7 +31,7 @@ public class BeanCopy {
 	        entity.setAuthority(form.getAuthority());
 	
 	        department.setDeptId(form.getDeptId());
-	        entity.setDepartment(department);
+//	        entity.setDepartment(department);
 	
 	        return entity;
 	    }
@@ -52,7 +52,7 @@ public class BeanCopy {
 	        form.setAddress(entity.getAddress());
 	        form.setBirthday(entity.getBirthday());
 	        form.setAuthority(entity.getAuthority());
-	        form.setDeptId(entity.getDepartment().getDeptId());
+//	        form.setDeptId(entity.getDepartment().getDeptId());
 	
 	        return form;
 	    }
