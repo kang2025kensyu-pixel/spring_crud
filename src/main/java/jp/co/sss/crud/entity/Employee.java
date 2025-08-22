@@ -5,10 +5,7 @@ import java.util.Date;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jp.co.sss.crud.form.EmployeeForm;
 
 @Entity
 @Table(name = "employee")
@@ -37,23 +34,52 @@ public class Employee {
 	@Column
 	private Integer authority;
 
-	@ManyToOne
-	@JoinColumn(name = "dept_id")
-	private Department department;
 
-	public void setEmpId(Integer empId2) {
+	public Integer getEmpId() {
+		return empId;
+	}
+
+	public void setEmpId(Integer empId) {
+		this.empId = empId;
+	}
+
+	public String getEmpPass() {
+		return empPass;
+	}
+
+	public void setEmpPass(String empPass) {
+		this.empPass = empPass;
+	}
+
+	public void setEmpName(String empName) {
 		// TODO 自動生成されたメソッド・スタブ
+		this.empName = empName;
 		
 	}
 
-	public void setEmpPass(String empPass2) {
+	public String getEmpName() {
 		// TODO 自動生成されたメソッド・スタブ
-		
+		return empName;
 	}
 
-	public void setEmpName(String empName2) {
+	public Integer getGender() {
 		// TODO 自動生成されたメソッド・スタブ
-		
+		return gender;
+	}
+
+	public String getAddress() {
+		// TODO 自動生成されたメソッド・スタブ
+		return address;
+	}
+
+	public Date getBirthday() {
+		// TODO 自動生成されたメソッド・スタブ
+		return birthday;
+	}
+
+	public Integer getAuthority() {
+		// TODO 自動生成されたメソッド・スタブ
+		return authority;
 	}
 
 	public void setGender(Integer gender2) {
@@ -76,51 +102,20 @@ public class Employee {
 		
 	}
 
-	public void setDepartment(Department department) {
-		// TODO 自動生成されたメソッド・スタブ
-		
-	}
+//	public Department getDepartment() {
+//		// TODO 自動生成されたメソッド・スタブ
+//		return null;
+//	}
 
 
 
-	public String getEmpName() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
+	
 
-	public Integer getGender() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
 
-	public String getAddress() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
 
-	public Date getBirthday() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
+	
 
-	public Integer getAuthority() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
-
-	public EmployeeForm getDepartment() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
-
-	public Object getEmpPass() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
-
-	public Object getEmpId() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
-
+//	@ManyToOne
+//	@JoinColumn(name = "dept_id");
+	
 }

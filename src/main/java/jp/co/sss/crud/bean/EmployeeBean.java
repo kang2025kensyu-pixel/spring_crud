@@ -63,7 +63,7 @@ public class EmployeeBean {
 		return birthday;
 	}
 
-	public void setBirthday(Date birthday) {
+	public void (Date birthday) {
 		this.birthday = birthday;
 	}
 
