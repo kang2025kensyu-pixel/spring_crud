@@ -1,5 +1,7 @@
 package jp.co.sss.crud.bean;
 
+import java.util.Date;
+
 public class EmployeeBean {
 	private Integer empId;
 
@@ -66,13 +68,15 @@ public class EmployeeBean {
 	    this.deptName = deptName;
 	}
 
-//	public Date getBirthday() {
-//	    return birthday;
-//	}
-//
-//	public void setBirthday(Date birthday) {
-//	    this.birthday = birthday;
-//	}
+	private String birth;
+
+	public String getBirth() {
+	    return birth;
+	}
+
+	public void setBirth(String birth) {
+	    this.birth = birth;
+	}
 
 	public Integer getAuthority() {
 		return authority;
@@ -88,5 +92,10 @@ public class EmployeeBean {
 
 	public void setDeptId(Integer deptId) {
 		this.deptId = deptId;
+	}
+
+	public Date getBirthday() {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
 	}
 }
