@@ -1,7 +1,5 @@
 package jp.co.sss.crud.bean;
 
-import java.util.Date;
-
 public class EmployeeBean {
 	private Integer empId;
 
@@ -13,7 +11,7 @@ public class EmployeeBean {
 
 	private String address;
 
-//	private Date birthday;
+	private String birthday;
 
 	private Integer authority;
 
@@ -51,31 +49,12 @@ public class EmployeeBean {
 		this.gender = gender;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getBirthday() {
+		return birthday;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	private String deptName;
-
-	public String getDeptName() {
-	    return deptName;
-	}
-
-	public void setDeptName(String deptName) {
-	    this.deptName = deptName;
-	}
-
-	private String birth;
-
-	public String getBirth() {
-	    return birth;
-	}
-
-	public void setBirth(String birth) {
-	    this.birth = birth;
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
 	}
 
 	public Integer getAuthority() {
@@ -86,6 +65,24 @@ public class EmployeeBean {
 		this.authority = authority;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	private String deptName;
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
 	public Integer getDeptId() {
 		return deptId;
 	}
@@ -94,8 +91,4 @@ public class EmployeeBean {
 		this.deptId = deptId;
 	}
 
-	public Date getBirthday() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
 }

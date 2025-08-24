@@ -16,6 +16,7 @@ import jakarta.validation.Valid;
 import jp.co.sss.crud.entity.Employee;
 import jp.co.sss.crud.form.LoginForm;
 import jp.co.sss.crud.repository.EmployeeRepository;
+
 @Controller
 public class IndexController {
 
@@ -29,46 +30,43 @@ public class IndexController {
 	}
 
 	@RequestMapping(path = "/login", method = RequestMethod.POST)
-	public String login (@Valid @ModelAttribute LoginForm form, BindingResult result,HttpSession session,Model model) {
+	public String login(@Valid @ModelAttribute LoginForm form, BindingResult result, HttpSession session, Model model) {
 		if (result.hasErrors()) {
 			model.addAttribute("errors", result.getAllErrors());
-		return "index";
-		
+			return "index";
+
 		}
-		  Employee employee = employeeRepository.findById(form.getEmpId()).orElse(null);
-	        
-	        if (employee != null && employee.getEmpPass().equals(form.getEmpPass())) {
-	         
-	            session.setAttribute("id", employee);
-	            System.out.println("ここまで");
-//	            model.addAttribute("id", employee);
-//	            System.out.println("ここまで2");
-	            return "redirect:/list";
+		Employee employee = employeeRepository.findById(form.getEmpId()).orElse(null);
 
+		if (employee != null && employee.getEmpPass().equals(form.getEmpPass())) {
 
-	            
-	        } else {
-	            model.addAttribute("error", "社員IDまたはパスワードが正しくありません。");
-	            return "index";
-	        }
+			session.setAttribute("id", employee);
+			System.out.println("ここまで");
+			model.addAttribute("id", employee);
+			System.out.println("ここまで2");
+			return "redirect:/list";
+
+		} else {
+			model.addAttribute("error", "社員IDまたはパスワードが正しくありません。");
+			return "index";
+		}
 	}
-//		Optional<Employee> employeeOptional = employeeRepository.findByEmpId(form.getEmpId());
-//      
-//
-//            Employee employee = employeeOptional.get();
-//            if (employee.getEmpPass().equals(form.getEmpPass())) {
-//                 return "redirect:/list"; // ログイン
-//               }
-//          
-//      model.addAttribute("loginError", "社員IDまたはパスワードが正しくありません");
-//      return "index";
-//            
-//		}
-	
+	//		Optional<Employee> employeeOptional = employeeRepository.findByEmpId(form.getEmpId());
+	//      
+	//
+	//            Employee employee = employeeOptional.get();
+	//            if (employee.getEmpPass().equals(form.getEmpPass())) {
+	//                 return "redirect:/list"; // ログイン
+	//               }
+	//          
+	//      model.addAttribute("loginError", "社員IDまたはパスワードが正しくありません");
+	//      return "index";
+	//            
+	//		}
+
 	@RequestMapping(path = "/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
-	    session.invalidate();
-	    return "redirect:/"; // Redirect to the login page
+		session.invalidate();
+		return "redirect:/"; // Redirect to the login page
 	}
 }
-

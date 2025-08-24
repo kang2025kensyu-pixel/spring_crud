@@ -8,10 +8,9 @@
 
 <body class="admin user_regist_input_admin">
 	<h3>社員登録入力画面</h3>
-	 <!-- class名とボタンの変更は行なわないこと。-->
+	<!--	class名とボタンの変更は行なわないこと。-->
 	<div class="update">
-		<form th:action="@{/regist_check}" method="post" th:object="${employee}">
-				
+		<form th:action="@{regist/complete}" method="post" th:object="${employee}">
 			<p>
 				<span th:each="error:${#fields.detailedErrors()}">
 					<span th:text="${error.message}"></span><br />
@@ -21,7 +20,7 @@
 			<div class="form">
 				<div class="label">パスワード：</div>
 				<div class="input">
-					<input type="password" th:field="*{empass}" />
+					<input type="password" th:field="*{empPass}" />
 				</div>
 			</div>
 			<div class="form">
@@ -40,13 +39,13 @@
 			<div class="form">
 				<div class="label">住所：</div>
 				<div class="input">
-					<input type="text" th:field="*{authority}" />
+					<input type="text" th:field="*{address}" />
 				</div>
 			</div>
 			<div class="form">
 				<div class="label">生年月日：</div>
 				<div class="input">
-					<input type="text" th:field="*{birth}" /> (YYYY/MM/DD)
+					<input type="text" th:field="*{birthday}" /> (YYYY/MM/DD)
 				</div>
 			</div>
 			<div class="form">
@@ -60,9 +59,8 @@
 				<div class="label">部署名：</div>
 				<div class="input">
 					<select th:field="*{deptId}">
-						<option value="1">営業部</option>
-						<option value="2">経理部</option>
-						<option value="3">総務部</option>
+						<option th:each="dept : ${departments}" th:value="${dept.deptId}" th:text="${dept.deptName}">
+						</option>
 					</select>
 				</div>
 			</div>

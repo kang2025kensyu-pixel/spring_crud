@@ -4,9 +4,12 @@ import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,10 +17,11 @@ import jakarta.persistence.Table;
 public class Employee {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "emp_seq_generator")
+	@SequenceGenerator(name = "emp_seq_generator", sequenceName = "seq_emp", allocationSize = 1)
 	private Integer empId;
-
 	@Column
-	
+
 	private String empPass;
 
 	@Column
@@ -90,19 +94,22 @@ public class Employee {
 	public void setAuthority(Integer authority) {
 		this.authority = authority;
 	}
-	
-	
+
 	@ManyToOne
 	@JoinColumn(name = "dept_id")
 	private Department department;
 
 	public Department getDepartment() {
-	    return department;
+		return department;
 	}
 
 	public void setDepartment(Department department) {
-	    this.department = department;
+		this.department = department;
 	}
 
+	public static Object getDeptId() {
+		// TODO 自動生成されたメソッド・スタブ
+		return getDeptId();
+	}
 
 }

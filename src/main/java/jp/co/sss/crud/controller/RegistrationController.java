@@ -1,22 +1,9 @@
-//package jp.co.sss.crud.controller;
-//
-//import org.springframework.stereotype.Controller;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.ModelAttribute;
-//
-//import jp.co.sss.crud.bean.EmployeeBean;
-//
-//@Controller
-//public class RegistrationController {
-//
-//
-//    @GetMapping("regist/regist_input")
-//    public String returnToRegistrationForm(@ModelAttribute("employee") EmployeeBean employee) {
-//        return "regist/regist_input";
-//    }
-//    
-//}
 package jp.co.sss.crud.controller;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,41 +20,87 @@ import jp.co.sss.crud.repository.EmployeeRepository;
 
 @Controller
 public class RegistrationController {
-	@Autowired
+    @Autowired
     private EmployeeRepository employeeRepository;
-	@Autowired
-    private DepartmentRepository departmentRepository;
-	// 登録フォーム表示
-    @GetMapping("/registration")
-    public String returnToRegistrationForm( Model model) {
-        model.addAttribute("employee",  new EmployeeBean());
-        return "regist_input";
-    }
-
-    //  入力確認画面へ
-    @PostMapping("/registration/regist_check")
-    public String postRegistration(@ModelAttribute("employee") EmployeeBean employee, Model model) {
-        model.addAttribute("employee", employee);
-        return "regist_check";
-    }
-    
     @Autowired
     private DepartmentRepository departmentRepository;
 
-    @PostMapping("/registration/complete")
-    public String completeRegistration(@ModelAttribute("employee") EmployeeBean employeeBean) {
+
+    @GetMapping("/regist/input")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("employee", new EmployeeBean());
+        List<Department> departments = departmentRepository.findAll(); 
+        model.addAttribute("departments", departments); 
+        return "/regist/regist_input";
+    }
+    
+    
+    @PostMapping("/regist/check") 
+    public String completeRegistration(@ModelAttribute("employee") EmployeeBean employeeBean, Model model) {
         Employee employee = new Employee();
 
-        // 部署IDから部署エンティティを取得
-        Department dept = departmentRepository.findById(employeeBean.getDeptId()).orElse(null);
-        employee.setDepartment(dept);
+        Optional<Department> deptOptional = departmentRepository.findById(employeeBean.getDeptId());
+        if (deptOptional.isPresent()) {
+            employee.setDepartment(deptOptional.get());
+        } else {
+           
+            return "error1";
+        }
 
-        // その他のフィールド設定
-        employee.setEmpName(employeeBean.getEmpName());
+        try {
+           
+        	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            employee.setBirthday(dateFormat.parse(employeeBean.getBirthday()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "error1"; 
+        }
+
         employee.setEmpPass(employeeBean.getEmpPass());
-        // ...
+        employee.setEmpName(employeeBean.getEmpName());
+        employee.setGender(employeeBean.getGender());
+        employee.setAddress(employeeBean.getAddress());
+        employee.setAuthority(employeeBean.getAuthority());
+      
+        
+        model.addAttribute("employee", employee);
+
+        return "/regist_check";
+    }
+    
+ 
+    @PostMapping("/regist/complete")
+    public String complete(@ModelAttribute("employee") EmployeeBean employeeBean, Model model) {
+        Employee employee = new Employee();
+
+        Optional<Department> deptOptional = departmentRepository.findById(employeeBean.getDeptId());
+        if (deptOptional.isPresent()) {
+            employee.setDepartment(deptOptional.get());
+        } else {
+            return "error1";
+        }
+
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            employee.setBirthday(dateFormat.parse(employeeBean.getBirthday()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "error1";
+        }
+
+        employee.setEmpPass(employeeBean.getEmpPass());
+        employee.setEmpName(employeeBean.getEmpName());
+        employee.setGender(employeeBean.getGender());
+        employee.setAddress(employeeBean.getAddress());
+        employee.setAuthority(employeeBean.getAuthority());
 
         employeeRepository.save(employee);
-        return "regist_complete";
+
+        return "/regist_complete";
+    }
+    
+    @GetMapping("/regist/regist_check")
+    public String showForm(Model model) {
+        return "/regist_check";
     }
 }
