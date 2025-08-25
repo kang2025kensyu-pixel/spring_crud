@@ -31,26 +31,25 @@ public class IndexController {
 
 	@RequestMapping(path = "/login", method = RequestMethod.POST)
 	public String login(@Valid @ModelAttribute LoginForm form, BindingResult result, HttpSession session, Model model) {
-		if (result.hasErrors()) {
-			model.addAttribute("errors", result.getAllErrors());
-			return "index";
+	    if (result.hasErrors()) {
+	        model.addAttribute("errors", result.getAllErrors());
+	        return "index";
+	    }
 
-		}
-		Employee employee = employeeRepository.findById(form.getEmpId()).orElse(null);
+	    Employee employee = employeeRepository.findById(form.getEmpId()).orElse(null);
 
-		if (employee != null && employee.getEmpPass().equals(form.getEmpPass())) {
-
-			session.setAttribute("id", employee);
-			System.out.println("ここまで");
-			model.addAttribute("id", employee);
-			System.out.println("ここまで2");
-			return "redirect:/list";
-
-		} else {
-			model.addAttribute("error", "社員IDまたはパスワードが正しくありません。");
-			return "index";
-		}
+	    if (employee != null && employee.getEmpPass().equals(form.getEmpPass())) {
+	        session.setAttribute("user", employee);
+	        System.out.println("ここまで");
+	        model.addAttribute("user", employee); 
+	        System.out.println("ここまで2");
+	        return "redirect:/list";
+	    } else {
+	        model.addAttribute("error", "社員IDまたはパスワードが正しくありません。");
+	        return "index";
+	    }
 	}
+
 	
 	//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 //	TODO　ログアウトボタン表示

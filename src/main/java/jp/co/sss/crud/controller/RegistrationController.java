@@ -1,3 +1,5 @@
+package jp.co.sss.crud.controller;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -18,59 +20,63 @@ import jp.co.sss.crud.repository.EmployeeRepository;
 
 @Controller
 public class RegistrationController {
-	@Autowired
-	private EmployeeRepository employeeRepository;
-	@Autowired
-	private DepartmentRepository departmentRepository;
 
-	@GetMapping("/regist/input")
-	public String showRegistrationForm(Model model) {
-		// Use EmployeeForm for consistency
-		model.addAttribute("employee", new EmployeeForm());
-		List<Department> departments = departmentRepository.findAll();
-		model.addAttribute("departments", departments);
-		return "/regist/regist_input";
-	}
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
-	@PostMapping("/regist/check")
-	public String checkRegistration(@ModelAttribute("employee") EmployeeForm form, Model model) {
-	    Optional<Department> deptOptional = departmentRepository.findById(form.getDeptId());
-	    if (deptOptional.isPresent()) {
-	        form.setDepartment(deptOptional.get());
-	        model.addAttribute("employee", form);
-	    } else {
-	        return "error1";
-	    }
-	    return "/regist/regist_check";
-	}
+    @Autowired
+    private DepartmentRepository departmentRepository;
 
+    @GetMapping("/regist/input")
+    public String showRegistrationForm(@ModelAttribute("employee") EmployeeForm form, Model model) {
+        List<Department> departments = departmentRepository.findAll();
+        model.addAttribute("departments", departments);
+        return "/regist/regist_input";
+    }
 
-	@PostMapping("/regist/confirm")
-	public String processRegistrationForm(@ModelAttribute("employee") EmployeeForm form, RedirectAttributes redirectAttributes) {
-		Employee employee = new Employee();
-		BeanUtils.copyProperties(form, employee);
+    @PostMapping("/regist/check")
+    public String checkRegistration(@ModelAttribute("employee") EmployeeForm form, Model model) {
+        Optional<Department> deptOptional = departmentRepository.findById(form.getDeptId());
+        if (deptOptional.isPresent()) {
+            form.setDepartment(deptOptional.get());
+            model.addAttribute("employee", form);
+            return "/regist/regist_check";
+        } else {
+            // Handle department not found case
+            return "redirect:/regist/input";
+        }
+    }
 
-		Optional<Department> deptOptional = departmentRepository.findById(form.getDeptId());
-		if (deptOptional.isPresent()) {
-			employee.setDepartment(deptOptional.get());
-		} else {
-			return "error1";
-		}
+    @PostMapping("/regist/confirm")
+    public String processRegistrationForm(@ModelAttribute("employee") EmployeeForm form, RedirectAttributes redirectAttributes) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(form, employee);
 
-		employeeRepository.save(employee);
-		redirectAttributes.addFlashAttribute("message", "社員の登録が完了しました。");
+        
+        Integer maxEmpId = employeeRepository.findTopByOrderByEmpIdDesc().map(Employee::getEmpId).orElse(0);
+        employee.setEmpId(maxEmpId + 1);
 
-		return "redirect:/regist/complete";
-	}
+        Optional<Department> deptOptional = departmentRepository.findById(form.getDeptId());
+        if (deptOptional.isPresent()) {
+            employee.setDepartment(deptOptional.get());
+        } else {
+            return "redirect:/regist/input";
+        }
 
-	@GetMapping("/regist/complete")
-	public String showRegistrationComplete() {
-	    return "/regist/regist_complete";
-	}
+        employeeRepository.save(employee);
+        redirectAttributes.addFlashAttribute("message", "社員の登録が完了しました。");
 
-	@PostMapping("/regist/return")
-	public String returnToInput(@ModelAttribute("employee") EmployeeForm form, RedirectAttributes redirectAttributes) {
-		redirectAttributes.addFlashAttribute("employee", form);
-		return "redirect:/regist/input";
-	}
+        return "/regist/regist_complete";
+    }
+
+    @GetMapping("/regist/complete")
+    public String showRegistrationComplete() {
+        return "/regist/regist_complete";
+    }
+
+    @PostMapping("/regist/return")
+    public String returnToInput(@ModelAttribute("employee") EmployeeForm form, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("employee", form);
+        return "redirect:/regist/input";
+    }
 }

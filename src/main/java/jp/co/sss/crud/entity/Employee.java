@@ -1,9 +1,10 @@
 package jp.co.sss.crud.entity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -14,14 +15,13 @@ import jakarta.persistence.Table;
 public class Employee {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column
+	@Column(name = "emp_id")
 	private Integer empId;
-	@Column
-	
+
+	@Column(name = "emp_pass")
 	private String empPass;
 
-	@Column
+	@Column(name = "emp_name")
 	private String empName;
 
 	@Column
@@ -36,6 +36,28 @@ public class Employee {
 	@Column
 	private Integer authority;
 
+	@ManyToOne
+	@JoinColumn(name = "dept_id", referencedColumnName = "dept_id")
+	private Department department;
+
+	// (Getters and Setters for all fields...)
+
+ 
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+
+
+	public void setBirthday(Date birthday) {
+		if (birthday != null) {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+			this.birthday = formatter.format(birthday);
+		} else {
+			this.birthday = null;
+		}
+	}
+    
+  
 	public void setEmpId(Integer empId) {
 		this.empId = empId;
 	}
@@ -60,7 +82,6 @@ public class Employee {
 		return empName;
 	}
 
-
 	public void setGender(Integer gender) {
 		this.gender = gender;
 	}
@@ -79,10 +100,6 @@ public class Employee {
 		return birthday;
 	}
 
-	public void setBirthday(String string) {
-		this.birthday = string;
-	}
-
 	public Integer getAuthority() {
 		return authority;
 	}
@@ -91,10 +108,6 @@ public class Employee {
 		this.authority = authority;
 	}
 
-	@ManyToOne
-	@JoinColumn(name = "dept_id")
-	private Department department;
-
 	public Department getDepartment() {
 		return department;
 	}
@@ -102,7 +115,4 @@ public class Employee {
 	public void setDepartment(Department department) {
 		this.department = department;
 	}
-
-	
-
 }

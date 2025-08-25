@@ -1,30 +1,44 @@
 package jp.co.sss.crud.controller;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jp.co.sss.crud.entity.Employee;
+import jp.co.sss.crud.repository.EmployeeRepository;
 
 @Controller
 public class DeleteController {
 
-   
-    @RequestMapping("/delete/{id}")
-    public String showConfirmDeletePage(@PathVariable Long id) {
-    
-        return "delete_check"; 
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @GetMapping("/delete/confirm/{id}")
+    public String showConfirmDeletePage(@PathVariable Integer id, Model model) {
+        Optional<Employee> employeeOpt = employeeRepository.findById(id); 
+
+        if (employeeOpt.isPresent()) {
+            model.addAttribute("employee", employeeOpt.get());
+            return "delete/delete_check"; 
+        } else {
+            return "redirect:/list";
+        }
     }
-//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝削除押したらエラー＝＝＝＝＝＝＝＝＝＝＝＝
-//Whitelabel Error Page
-//This application has no explicit mapping for /error, so you are seeing this as a fallback.
-//http://localhost:7777/spring_crud/regist_check
-//Mon Aug 25 17:54:01 JST 2025
-//There was an unexpected error (type=Not Found, status=404).
-//No message available
-//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+
     @PostMapping("/delete/{id}")
-    public String deleteRecord(@PathVariable Long id) {
-    
-        return "delete_complete"; 
+    public String deleteRecord(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        employeeRepository.deleteById(id);
+        
+        redirectAttributes.addFlashAttribute("message", "社員情報の削除が完了しました。");
+        return "redirect:/delete_complete";
+    }
+    @GetMapping("/delete_complete")
+    public String showDeleteCompletePage() {
+        return "delete/delete_complete";
     }
 }
