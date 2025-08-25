@@ -51,6 +51,12 @@ public class IndexController {
 			return "index";
 		}
 	}
+	
+	//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+//	TODO　ログアウトボタン表示
+//	エラーメッセージ表示
+//	ログイン後名前確認
+	//＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 	//		Optional<Employee> employeeOptional = employeeRepository.findByEmpId(form.getEmpId());
 	//      
 	//

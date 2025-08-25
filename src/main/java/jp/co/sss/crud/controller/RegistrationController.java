@@ -53,7 +53,7 @@ public class RegistrationController {
 		//        BeanUtils.copyProperties(form,employee);
 		//	
 		 
-		return "redirect:regist/regist_check";
+		return "redirect:/regist_check";
 	}
 	
 
@@ -63,9 +63,14 @@ public class RegistrationController {
 		model.addAttribute("employee", employee);
 		return "/regist/regist_check";
 	}
-
-	
-	
+//============================登録ボタンをオスと画面が見えない=========================
+//	//Whitelabel Error Page
+//	This application has no explicit mapping for /error, so you are seeing this as a fallback.
+//
+//	Mon Aug 25 17:52:54 JST 2025
+//	There was an unexpected error (type=Not Found, status=404).
+//	No message available
+//	=====================================================
 	@PostMapping("/regist/confirm")
 	public String processRegistrationForm(@ModelAttribute("employee") EmployeeForm form, Model model) {
 	    Employee employee = new Employee();

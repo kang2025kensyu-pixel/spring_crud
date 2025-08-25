@@ -28,6 +28,10 @@ public class UpdateController {
 	@GetMapping("/update/input/{empId}")
 	public String showUpdateForm(@PathVariable("empId") Department empId, Model model) {
 		Employee employee = new Employee(); 
+//		=================================
+//				Mon Aug 25 17:51:50 JST 2025
+//				There was an unexpected error (type=Internal Server Error, status=500).
+//				============================
 	//	employeeRepository.setempId(empId);
 //		 Optional<Department> deptOpt = departmentRepository.findById(employee.getDepartment(empId));
 //		 model.addAttribute("employee", employee); 
