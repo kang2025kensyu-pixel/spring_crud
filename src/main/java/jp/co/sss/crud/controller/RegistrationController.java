@@ -10,8 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import jp.co.sss.crud.bean.EmployeeBean;
 import jp.co.sss.crud.entity.Department;
 import jp.co.sss.crud.entity.Employee;
 import jp.co.sss.crud.form.EmployeeForm;
@@ -27,65 +27,55 @@ public class RegistrationController {
 
 	@GetMapping("/regist/input")
 	public String showRegistrationForm(Model model) {
-		model.addAttribute("employee", new EmployeeBean());
+		// Use EmployeeForm for consistency
+		model.addAttribute("employee", new EmployeeForm());
 		List<Department> departments = departmentRepository.findAll();
 		model.addAttribute("departments", departments);
-
 		return "/regist/regist_input";
 	}
 
-	@PostMapping("/regist/complet")
-	public String completeRegistration(@ModelAttribute("employee") EmployeeForm form, EmployeeBean employeeBean,
-			Model model) {
-		Employee employee = new Employee();
-		Department department = new Department();
-		department.setDeptId(form.getDeptId());
-
-		Optional<Department> deptOptional = departmentRepository.findById(form.getDeptId());
-		BeanUtils.copyProperties(form, employee);
-		if (deptOptional.isPresent()) {
-			employee.setDepartment(deptOptional.get());
-		} else {
-			return "error1"; // 部署が存在しない場合のエラーハンドリング
-		}
-
-		//        Optional<Department> deptOptional = departmentRepository.findById(form.getDeptId());
-		//        BeanUtils.copyProperties(form,employee);
-		//	
-		 
-		return "redirect:/regist_check";
-	}
-	
-
-	@GetMapping("/regist/regist_check")
-	public String showForm(@ModelAttribute("employee") EmployeeBean employee, Model model) {
-
-		model.addAttribute("employee", employee);
-		return "/regist/regist_check";
-	}
-//============================登録ボタンをオスと画面が見えない=========================
-//	//Whitelabel Error Page
-//	This application has no explicit mapping for /error, so you are seeing this as a fallback.
-//
-//	Mon Aug 25 17:52:54 JST 2025
-//	There was an unexpected error (type=Not Found, status=404).
-//	No message available
-//	=====================================================
-	@PostMapping("/regist/confirm")
-	public String processRegistrationForm(@ModelAttribute("employee") EmployeeForm form, Model model) {
-	    Employee employee = new Employee();
-	    BeanUtils.copyProperties(form, employee);
-
+	@PostMapping("/regist/check")
+	public String checkRegistration(@ModelAttribute("employee") EmployeeForm form, Model model) {
 	    Optional<Department> deptOptional = departmentRepository.findById(form.getDeptId());
 	    if (deptOptional.isPresent()) {
-	        employee.setDepartment(deptOptional.get());
+	        // You've already put the Department object in the model here!
+	        model.addAttribute("department", deptOptional.get());
 	    } else {
 	        return "error1";
 	    }
-
-	    employeeRepository.save(employee);
-	    return "redirect:/regist/complete";
+	    return "/regist/regist_check";
 	}
 
+	// 3. Handle the final registration (save data to the database).
+	@PostMapping("/regist/confirm")
+	public String processRegistrationForm(@ModelAttribute("employee") EmployeeForm form, RedirectAttributes redirectAttributes) {
+		Employee employee = new Employee();
+		BeanUtils.copyProperties(form, employee);
 
+		Optional<Department> deptOptional = departmentRepository.findById(form.getDeptId());
+		if (deptOptional.isPresent()) {
+			employee.setDepartment(deptOptional.get());
+		} else {
+			return "error1";
+		}
+
+		employeeRepository.save(employee);
+		redirectAttributes.addFlashAttribute("message", "社員の登録が完了しました。");
+
+		return "redirect:/regist/complete";
+	}
+
+	// 4. Display the registration complete page.
+	@GetMapping("/regist/complete")
+	public String showRegistrationComplete() {
+		return "/regist/regist_complete";
+	}
+
+	// 5. Handle the "Return" button on the confirmation page.
+	@PostMapping("/regist/return")
+	public String returnToInput(@ModelAttribute("employee") EmployeeForm form, RedirectAttributes redirectAttributes) {
+		// Pass the form data back to the input page via flash attributes.
+		redirectAttributes.addFlashAttribute("employee", form);
+		return "redirect:/regist/input";
+	}
 }
