@@ -18,7 +18,13 @@ public class EmployeeForm {
 	/** 社員名 */
 	@NotBlank
 	@Size(min = 1, max = 30)
+
+	@NotNull
 	private String empName;
+
+	@NotNull
+	private Integer age;
+
 
 	/** 性別 */
 	private Integer gender;
@@ -138,7 +144,7 @@ public class EmployeeForm {
 	 *
 	 * @return 生年月日
 	 */
-	public Date getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
 
