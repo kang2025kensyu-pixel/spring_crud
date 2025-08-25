@@ -9,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,10 +16,11 @@ import jakarta.persistence.Table;
 public class Employee {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "emp_seq_generator")
-	@SequenceGenerator(name = "emp_seq_generator", sequenceName = "seq_emp", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column
 	private Integer empId;
 	@Column
+	
 
 	private String empPass;
 
@@ -39,38 +39,37 @@ public class Employee {
 	@Column
 	private Integer authority;
 
-	public Integer getEmpId() {
-		return empId;
-	}
-
 	public void setEmpId(Integer empId) {
 		this.empId = empId;
 	}
 
-	public String getEmpPass() {
-		return empPass;
+	public Integer getEmpId() {
+		return empId;
 	}
 
 	public void setEmpPass(String empPass) {
 		this.empPass = empPass;
 	}
 
-	public String getEmpName() {
-		return empName;
+	public String getEmpPass() {
+		return empPass;
 	}
 
 	public void setEmpName(String empName) {
 		this.empName = empName;
 	}
 
-	public Integer getGender() {
-		return gender;
+	public String getEmpName() {
+		return empName;
 	}
+
 
 	public void setGender(Integer gender) {
 		this.gender = gender;
 	}
-
+	public Integer getGender() {
+		return gender;
+	}
 	public String getAddress() {
 		return address;
 	}

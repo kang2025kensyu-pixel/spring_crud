@@ -16,8 +16,9 @@
 		</div>
 		<div class="form">
 			<div class="label">社員名：</div>
-			<div class="input" th:text="{employee.empName}"></div>
+			<div class="input" th:text="${employee.empName}"></div>
 		</div>
+
 		<div class="form">
 			<div class="label">性別：</div>
 			<div class="input" th:switch="${employee.gender}">
@@ -42,9 +43,9 @@
 		</div>
 		<div class="form">
 			<div class="label">部署名：</div>
-			<div class="input" th:text="employee.department.deptName"></div>
+			<div class="input" th:text="${department.deptId.deptName}"></div>
 		</div>
-		<form th:action="@{/regist/input}" method="post" th:object="${employee}">
+		<form th:action="@{/regist/complete}" method="post" th:object="${employee}">
 			<div class="form">
 				<div class="label"></div>
 				<div class="input">

@@ -11,6 +11,9 @@ import jp.co.sss.crud.entity.Employee;
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
 	Optional<Employee> findByEmpId(Integer empId);
+
+	;
+
 	
 
 }
