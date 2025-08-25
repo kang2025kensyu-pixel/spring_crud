@@ -41,21 +41,21 @@
 		</div>
 		<div class="form">
 			<div class="label">部署名：</div>
-			<div class="input" th:text="${department.deptName}"></div>
+			<div class="input" th:text="${employee.department.deptName}"></div>
 		</div>
-		
-		<form action="/regist/confirm" method="post" th:object="${employee}">
-			<div class="label"></div>
-			<div class="input">
-				<input type="hidden" th:field="*{empPass}" />
-				<input type="hidden" th:field="*{empName}" />
-				<input type="hidden" th:field="*{gender}" />
-				<input type="hidden" th:field="*{address}" />
-				<input type="hidden" th:field="*{birthday}" />
-				<input type="hidden" th:field="*{authority}" />
-				<input type="hidden" th:field="*{deptId}" />
-				<input type="submit" value="登録" />
-			</div>
+
+		<div class="input" th:text="${employee.department.deptName}"></div>
+		<div class="label"></div>
+		<div class="input">
+			<input type="hidden" th:field="*{empPass}" />
+			<input type="hidden" th:field="*{empName}" />
+			<input type="hidden" th:field="*{gender}" />
+			<input type="hidden" th:field="*{address}" />
+			<input type="hidden" th:field="*{birthday}" />
+			<input type="hidden" th:field="*{authority}" />
+			<input type="hidden" th:field="*{deptId}" />
+			<input type="submit" value="登録" />
+		</div>
 		</form>
 
 		<form action="/regist/return" method="post" th:object="${employee}">
@@ -75,4 +75,5 @@
 		</form>
 	</div>
 </body>
+
 </html>

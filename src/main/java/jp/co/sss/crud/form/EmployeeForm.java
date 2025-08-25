@@ -3,6 +3,7 @@ package jp.co.sss.crud.form;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import jp.co.sss.crud.entity.Department;
 
 public class EmployeeForm {
 	/** 社員ID */
@@ -193,4 +194,13 @@ public class EmployeeForm {
 	public void setDeptId(Integer deptId) {
 		this.deptId = deptId;
 	}
+	 private Department department;
+
+	    public Department getDepartment() {
+	        return department;
+	    }
+
+	    public void setDepartment(Department department) {
+	        this.department = department;
+	    }
 }
