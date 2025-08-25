@@ -33,7 +33,7 @@
 		</div>
 		<div class="form">
 			<div class="label">生年月日：</div>
-			<div class="input" th:text="${#dates.format(employee.birthday, 'yyyy/MM/dd')}"></div>
+			<div class="input" th:text="{employee.birthday}"></div>
 		</div>
 
 
@@ -51,36 +51,38 @@
 
 
 		</div>
-		<form th:action="@{/regist/complete}" method="post" th:object="${employee}">
-			<div class="form">
-				<div class="label"></div>
-				<div class="input">
-					<input type="hidden" th:field="*{empPass}" />
-					<input type="hidden" th:field="*{empName}" />
-					<input type="hidden" th:field="*{gender}" />
-					<input type="hidden" th:field="*{address}" />
-					<input type="hidden" th:field="*{birthday}" />
-					<input type="hidden" th:field="*{authority}" />
-					<input type="hidden" th:field="*{department.deptId}" />
-					<input type="submit" value="登録" />
-				</div>
+
+		<form action="/regist/confirm" method="post">
+			<div class="label"></div>
+			<div class="input">
+				<input type="hidden" th:field="*{empPass}" />
+				<input type="hidden" th:field="*{empName}" />
+				<input type="hidden" th:field="*{gender}" />
+				<input type="hidden" th:field="*{address}" />
+				<input type="hidden" th:field="*{birthday}" />
+				<input type="hidden" th:field="*{authority}" />
+				<input type="hidden" th:field="*{department.deptId}" />
+				<input type="submit" value="登録" />
 			</div>
-		</form>
-		<form th:action="@{/regist/input}" method="post" th:object="${employee}">
-			<div class="form">
-				<div class="label"></div>
-				<div class="input">
-					<input type="hidden" th:field="*{empPass}" />
-					<input type="hidden" th:field="*{empName}" />
-					<input type="hidden" th:field="*{gender}" />
-					<input type="hidden" th:field="*{address}" />
-					<input type="hidden" th:field="*{birthday}" />
-					<input type="hidden" th:field="*{authority}" />
-					<input type="hidden" th:field="*{department.deptId}" />
-					<input type="submit" value="戻る" />
-				</div>
+	</div>
+	</form>
+
+	<form th:action="@{/input/hidden}" method="post">
+		<div class="form">
+			<div class="label"></div>
+			<div class="input">
+
+				<input type="hidden" th:field="*{employee.empPass}" />
+				<input type="hidden" th:field="*{employee.empName}" />
+				<input type="hidden" th:field="*{employee.gender}" />
+				<input type="hidden" th:field="*{employee.address}" />
+				<input type="hidden" th:field="*{employee.birthday}" />
+				<input type="hidden" th:field="*{employee.authority}" />
+				<input type="hidden" th:field="*{employee.department.deptId}" />
+				<input type="submit" value="戻る" />
 			</div>
-		</form>
+		</div>
+	</form>
 	</div>
 </body>
 

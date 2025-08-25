@@ -1,7 +1,5 @@
 package jp.co.sss.crud.form;
 
-import java.util.Date;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -36,7 +34,7 @@ public class EmployeeForm {
 
 	/** 生年月日 */
 	@NotNull
-	private Date birthday;
+	private String birthday;
 
 	/** 権限 */
 	private Integer authority;
@@ -154,7 +152,7 @@ public class EmployeeForm {
 	 * @param birthday
 	 *            生年月日
 	 */
-	public void setBirthday(Date birthday) {
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 

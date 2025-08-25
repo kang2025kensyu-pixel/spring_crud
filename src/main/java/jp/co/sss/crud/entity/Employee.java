@@ -1,7 +1,5 @@
 package jp.co.sss.crud.entity;
 
-import java.util.Date;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +19,6 @@ public class Employee {
 	private Integer empId;
 	@Column
 	
-
 	private String empPass;
 
 	@Column
@@ -34,7 +31,7 @@ public class Employee {
 	private String address;
 
 	@Column
-	private Date birthday;
+	private String birthday;
 
 	@Column
 	private Integer authority;
@@ -78,12 +75,12 @@ public class Employee {
 		this.address = address;
 	}
 
-	public Date getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
+	public void setBirthday(String string) {
+		this.birthday = string;
 	}
 
 	public Integer getAuthority() {
@@ -106,9 +103,6 @@ public class Employee {
 		this.department = department;
 	}
 
-	public static Object getDeptId() {
-		// TODO 自動生成されたメソッド・スタブ
-		return getDeptId();
-	}
+	
 
 }

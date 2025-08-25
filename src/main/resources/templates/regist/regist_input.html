@@ -10,7 +10,9 @@
 	<h3>社員登録入力画面</h3>
 	<!--	class名とボタンの変更は行なわないこと。-->
 	<div class="update">
-		<form th:action="@{/regist/complete}" method="post" th:object="${employee}">
+		
+
+		<form th:action="@{/regist/complet}" method="post" th:object="${employee}">
 			<p>
 				<span th:each="error:${#fields.detailedErrors()}">
 					<span th:text="${error.message}"></span><br />

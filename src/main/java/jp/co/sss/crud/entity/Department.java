@@ -31,5 +31,7 @@ import jakarta.persistence.Table;
 	    public void setDeptName(String deptName) {
 	        this.deptName = deptName;
 	    }
+	   
+
 	}
 
