@@ -1,8 +1,5 @@
 package jp.co.sss.crud.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils; // Import for String validation
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,89 +22,88 @@ import jp.co.sss.crud.repository.EmployeeRepository;
 
 @Controller
 public class UpdateController {
-    @Autowired
-    private EmployeeRepository employeeRepository;
-    @Autowired
-    private DepartmentRepository departmentRepository;
+	@Autowired
+	private EmployeeRepository employeeRepository;
+	@Autowired
+	private DepartmentRepository departmentRepository;
+	
 
-    @GetMapping("/update/input/{empId}")
-    public String showUpdateForm(@PathVariable("empId") Integer empId, Model model) {
-        Optional<Employee> employeeOpt = employeeRepository.findByEmpId(empId);
-        
-        if (employeeOpt.isPresent()) {
-            Employee employee = employeeOpt.get();
-            EmployeeForm form = new EmployeeForm();
-            BeanUtils.copyProperties(employee, form);
-            form.setDeptId(employee.getDepartment().getDeptId());
+	@GetMapping("/update/input/{empId}")
+	public String showUpdateForm(@PathVariable("empId") Integer empId, Model model) {
+		Optional<Employee> employeeOpt = employeeRepository.findByEmpId(empId);
 
-            model.addAttribute("employee", form);
-            List<Department> departments = departmentRepository.findAll();
-            model.addAttribute("departments", departments);
+		if (employeeOpt.isPresent()) {
+			Employee employee = employeeOpt.get();
+			EmployeeForm form = new EmployeeForm();
+			BeanUtils.copyProperties(employee, form);
+			form.setDeptId(employee.getDepartment().getDeptId());
+			model.addAttribute("employee", form);
+			List<Department> departments = departmentRepository.findAll();
+			model.addAttribute("departments", departments);
 
-            return "/update/update_input";
-        } else {
-            return "redirect:/list"; 
-        }
-    }
+			return "/update/update_input";
+		} else {
+			return "redirect:/list";
+		}
+	}
 
+	@PostMapping("/update/complete_check")
+	public String checkUpdate(@PathVariable("empId") EmployeeForm form, Model model) {
+//		Employee employee = employeeOpt.get();
+//		Optional<Employee> employeeOpt = employeeRepository.findByEmpId(form.getEmpId());
+		//       Employee employee = employeeOpt.get();
+		//       Optional<Department> deptOptional = departmentRepository.findById(form.getDeptId());
 
+		//====================================参考==========================
 
-    @PostMapping("/update/complete_check")
-    public String checkUpdate(@ModelAttribute("employee") EmployeeForm form, Model model) {
-        // Validate all required fields
-        if (!StringUtils.hasText(form.getEmpName()) || !StringUtils.hasText(form.getEmpPass())
-                || !StringUtils.hasText(form.getAddress()) || !StringUtils.hasText(form.getBirthday())) {
-            model.addAttribute("error", "全ての項目を入力してください。");
-            model.addAttribute("departments", departmentRepository.findAll());
-            return "/update/update_input";
-        }
+		//        Query query = entityManager.createNamedQuery("findByIdNamedQuery"); 
+		//        query.setParameter("id", id); 
+		//        model.addAttribute("items", query.getResultList()); 
+		//        Optional<Department> findById(Integer deptId);
 
-     
-        try {
-            new SimpleDateFormat("yyyy/MM/dd").setLenient(false).parse(form.getBirthday());
-        } catch (ParseException e) {
-            model.addAttribute("error", "生年月日の形式が正しくありません。(YYYY/MM/DD)");
-            model.addAttribute("departments", departmentRepository.findAll());
-            return "/update/update_input";
-        }
+		//==============================================================
+		 if (!StringUtils.hasText(form.getEmpName()) || !StringUtils.hasText(form.getEmpPass())
+	                || !StringUtils.hasText(form.getAddress()) || !StringUtils.hasText(form.getBirthday())) {
+	            model.addAttribute("error", "全ての項目を入力してください。");
+	            model.addAttribute("departments", departmentRepository.findAll());
+	            return "/update/update_input";
+	     }
+		 Optional<Department> deptOptional = departmentRepository.findById(form.getDeptId());
+	        if (deptOptional.isPresent()) {
+	            form.setDepartment(deptOptional.get());
+	            model.addAttribute("employee", form);
+	            return "/update/update_check";
+	        } else {
+	            model.addAttribute("error", "指定された部署が見つかりません。");
+	            model.addAttribute("departments", departmentRepository.findAll());
+	            return "/update/update_input";
+	        }
+	    }
 
-        Optional<Department> deptOptional = departmentRepository.findById(form.getDeptId());
-        if (deptOptional.isPresent()) {
-            form.setDepartment(deptOptional.get());
-            model.addAttribute("employee", form);
-            return "/update/update_check";
-        } else {
-            model.addAttribute("error", "指定された部署が見つかりません。");
-            model.addAttribute("departments", departmentRepository.findAll());
-            return "/update/update_input";
-        }
-    }
-
-  
-
-    @PostMapping("/update/complete")
+	@PostMapping("/update/complete")
     public String updateRecord(@ModelAttribute("employee") EmployeeForm form, RedirectAttributes redirectAttributes) {
         Optional<Employee> employeeOpt = employeeRepository.findByEmpId(form.getEmpId());
         
         if (employeeOpt.isPresent()) {
             Employee employee = employeeOpt.get();
             
-            BeanUtils.copyProperties(form, employee, "birthday");
-      
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-            try {
-                Date birthdayDate = formatter.parse(form.getBirthday());
-                employee.setBirthday(birthdayDate); 
-            } catch (ParseException e) {
-                redirectAttributes.addFlashAttribute("error", "生年月日の形式が正しくありません。 (YYYY/MM/DD)");
-                return "redirect:/update/input/" + form.getEmpId();
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//            LocalDate date = LocalDate.parse(inputDate, formatter);
+            Integer maxEmpId = employeeRepository.findTopByOrderByEmpIdDesc().map(Employee::getEmpId).orElse(0);
+            employee.setEmpId(maxEmpId + 1);
+            System.out.println("setEmpId");
+            Optional<Department> deptOptional = departmentRepository.findById(form.getDeptId());
+            if (deptOptional.isPresent()) {
+            	 System.out.println("deptOptionalです！！");
+                employee.setDepartment(deptOptional.get());
+            } else {
+                return "redirect:/regist/input";
             }
+            BeanUtils.copyProperties(form, employee, "empId");
 
-            Optional<Department> deptOpt = departmentRepository.findById(form.getDeptId());
-            deptOpt.ifPresent(employee::setDepartment);
-        
+            System.out.println("セーブマエです！！");
             employeeRepository.save(employee);
-            
+            System.out.println("SAVE完了");
             redirectAttributes.addFlashAttribute("message", "社員情報の変更が完了しました。");
             return "redirect:/update/complete_page";
         } else {
@@ -115,16 +111,14 @@ public class UpdateController {
         }
     }
 
-   
+	@GetMapping("/update/complete_page")
+	public String showUpdateComplete() {
+		return "/update/update_complete";
+	}
 
-    @GetMapping("/update/complete_page")
-    public String showUpdateComplete() {
-        return "/update/update_complete";
-    }
-    
-    @PostMapping("/update/return")
-    public String returnToInput(@ModelAttribute("employee") EmployeeForm form, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("employee", form);
-        return "redirect:/update/input/" + form.getEmpId();
-    }
+	@PostMapping("/update/back")
+	public String returnToInput(@ModelAttribute("employee") EmployeeForm form, RedirectAttributes redirectAttributes) {
+		redirectAttributes.addFlashAttribute("employee", form);
+		return "redirect:/update/input/" + form.getEmpId();
+	}
 }

@@ -1,7 +1,5 @@
 package jp.co.sss.crud.entity;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,7 +11,6 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "employee")
 public class Employee {
-
 	@Id
 	@Column(name = "emp_id")
 	private Integer empId;
@@ -43,21 +40,7 @@ public class Employee {
 	// (Getters and Setters for all fields...)
 
  
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
-	}
-
-
-	public void setBirthday(Date birthday) {
-		if (birthday != null) {
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-			this.birthday = formatter.format(birthday);
-		} else {
-			this.birthday = null;
-		}
-	}
-    
-  
+	
 	public void setEmpId(Integer empId) {
 		this.empId = empId;
 	}
@@ -95,7 +78,11 @@ public class Employee {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
 
+		}
+	  
 	public String getBirthday() {
 		return birthday;
 	}

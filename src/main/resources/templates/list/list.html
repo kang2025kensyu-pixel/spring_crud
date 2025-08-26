@@ -49,6 +49,8 @@
 				<td th:text="${employee.address}"></td>
 				<td th:text="${employee.birthday}"></td>
 				<td th:text="${employee.authority}"></td>
+				
+				
 				<td class="deptName" th:text="${employee.department.deptName}"></td>
 				<td class="button">
 					<a th:href="@{/update/input/{id}(id=${employee.empId})}">変更</a>
